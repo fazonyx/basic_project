@@ -1,18 +1,14 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99
-TARGET = hello
+CFLAGS = -Wall -Wextra -std=c99 -Iinclude
+TARGET = build/clock
 
-# Règle par défaut
-all: $(TARGET)
+# Création automatique du dossier build
+\$(shell mkdir -p build)
 
-# Règle de compilation
-$(TARGET): hello.c
-	$(CC) $(CFLAGS) -o $(TARGET) hello.c
+# Règles par défaut
+all: \$(TARGET)
 
-# Exécution du programme
-run: $(TARGET)
-	./$(TARGET)
-
-# Nettoyage
 clean:
-	rm -f $(TARGET)
+\trm -rf build
+
+.PHONY: all clean
