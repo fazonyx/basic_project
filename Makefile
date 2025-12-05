@@ -5,6 +5,10 @@ TARGET = build/clock
 # Fichiers source
 SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c,build/%.o,$(SRC))
+TEST_TARGET = build/test_runner
+TEST_SRC = $(wildcard tests/*.c)
+TEST_OBJ = $(patsubst tests/%.c,build/tests/%.o,$(TEST_SRC))
+
 
 # Détection du système d'exploitation
 ifeq ($(OS),Windows_NT)
@@ -38,5 +42,22 @@ clean:
 run: $(TARGET)
 	@echo "Lancement du programme..."
 	@./$(TARGET)
+
+# Règle pour les tests
+test: $(TEST_TARGET)
+	@echo "Exécution des tests..."
+	@./$(TEST_TARGET)
+
+# Lien pour l'exécutable de test
+$(TEST_TARGET): $(filter-out build/main.o,$(OBJ)) $(TEST_OBJ)
+	$(CC) -o $@ $^
+
+# Règle pour les objets de test
+build/tests/%.o: tests/%.c | build/tests
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Création du dossier de tests
+build/tests:
+	mkdir -p build/tests
 
 .PHONY: all clean run

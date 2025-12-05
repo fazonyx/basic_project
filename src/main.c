@@ -14,9 +14,7 @@ int main() {
 
     // Simuler le temps qui passe
     for (int i = 0; i < 10; i++) {
-        printf("Current time: ");
-        time_display(&clock);
-        printf("\n");
+        printf("Current time: %s\n", time_display(&clock));
         time_tick(&clock);
         
         #ifdef _WIN32

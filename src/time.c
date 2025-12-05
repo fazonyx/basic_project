@@ -24,9 +24,13 @@ void time_tick(Time* time) {
     }
 }
 
-void time_display(const Time* time) {
-    if (!time) return;
-    printf("%02d:%02d:%02d", time->hour, time->minute, time->second);
+// Dans src/time.c
+char* time_display(const Time* time) {
+    static char buffer[12]; // HH:MM:SS + 1 pour le null terminator + \0
+    if (!time) return "INVALID";
+    snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d", 
+             time->hour, time->minute, time->second);
+    return buffer;
 }
 
 int time_is_valid(const Time* time) {

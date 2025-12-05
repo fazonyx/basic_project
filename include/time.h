@@ -15,7 +15,7 @@ void time_init(Time* time, unsigned char h, unsigned char m, unsigned char s);
 void time_tick(Time* time);
 
 // Affiche l'heure au format HH:MM:SS
-void time_display(const Time* time);
+char* time_display(const Time* time);
 
 // Vérifie si une heure est valide
 int time_is_valid(const Time* time);
