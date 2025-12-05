@@ -4,24 +4,26 @@
 #else
 #include <unistd.h>  // Pour sleep() sous Unix/Linux
 #endif
-#include "../include/time.h"
+#include "../include/clock.h"
 
 int main() {
-    Time clock;
-    time_init(&clock, 23, 59, 55); // 23h59:55
+    Time current_time;
+    char time_buffer[12]; // Buffer pour stocker la chaîne de l'heure
     
-    printf("Starting the clock...\n");
-
-    // Simuler le temps qui passe
-    for (int i = 0; i < 10; i++) {
-        printf("Current time: %s\n", time_display(&clock));
-        time_tick(&clock);
+    printf("Horloge en temps réel - Appuyez sur Ctrl+C pour quitter\n");
+    
+    while (1) {
+        time_get_current(&current_time);
+        time_display(&current_time, time_buffer, sizeof(time_buffer));
+        printf("\rHeure actuelle: %s", time_buffer);
+        fflush(stdout);  // Force l'affichage immédiat
         
         #ifdef _WIN32
-        Sleep(1000);  // 1000 ms sous Windows
+        Sleep(1000);
         #else
-        sleep(1);     // 1 seconde sous Unix/Linux
+        sleep(1);
         #endif
     }
+    
     return 0;
 }
